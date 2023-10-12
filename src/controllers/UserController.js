@@ -3,11 +3,14 @@ const User = require('../models/User');
 class UserController {
   index = async (req, res) => {
     try {
-      const users = await User.findAll();
+      const users = await User.findAll({ attributes: ['id', 'name', 'email'] });
 
       res.json(users);
     } catch (error) {
-      return res.status(400).json({ errors: error.errors.map((err) => err.message) });
+      if (error.errors) {
+        return res.status(400).json({ errors: error.errors.map((err) => err.message) });
+      }
+      return res.status(400).json(error);
     }
   };
 
@@ -15,9 +18,14 @@ class UserController {
     try {
       const user = await User.create(req.body);
 
-      res.json(user);
+      const { id, name, email } = user;
+
+      res.json({ id, name, email });
     } catch (error) {
-      return res.status(400).json({ errors: error.errors.map((err) => err.message) });
+      if (error.errors) {
+        return res.status(400).json({ errors: error.errors.map((err) => err.message) });
+      }
+      return res.status(400).json(error);
     }
   };
 }
