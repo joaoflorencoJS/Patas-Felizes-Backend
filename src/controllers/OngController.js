@@ -1,11 +1,11 @@
-const User = require('../models/User');
+const Ong = require('../models/Ong');
 
-class UserController {
+class OngController {
   index = async (req, res) => {
     try {
-      const users = await User.findAll();
+      const ongs = await Ong.findAll();
 
-      res.json(users);
+      res.json(ongs);
     } catch (error) {
       return res.status(400).json({ errors: error.errors.map((err) => err.message) });
     }
@@ -13,13 +13,14 @@ class UserController {
 
   create = async (req, res) => {
     try {
-      const user = await User.create(req.body);
+      console.log(req.body);
+      const ong = await Ong.create(req.body);
 
-      res.json(user);
+      res.json(ong);
     } catch (error) {
       return res.status(400).json({ errors: error.errors.map((err) => err.message) });
     }
   };
 }
 
-module.exports = new UserController();
+module.exports = new OngController();
