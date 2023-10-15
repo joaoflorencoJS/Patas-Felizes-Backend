@@ -12,6 +12,9 @@ module.exports = class User extends Model {
       name: {
         type: Sequelize.STRING,
         defaultValue: '',
+        unique: {
+          msg: 'O nome inserido já está cadastrado.',
+        },
         validate: {
           len: {
             args: [3, 100],
@@ -58,5 +61,9 @@ module.exports = class User extends Model {
 
   passwordIsValid(password) {
     return compare(password, this.password_hash);
+  }
+
+  static associate(models) {
+    this.hasMany(models.Posts, { foreignKey: 'user_id' });
   }
 };

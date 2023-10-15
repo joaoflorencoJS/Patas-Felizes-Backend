@@ -1,11 +1,19 @@
 const User = require('../models/User');
+const Posts = require('../models/Posts');
 
 class UserController {
   index = async (req, res) => {
     try {
-      const users = await User.findAll({ attributes: ['id', 'name', 'email'] });
-
-      res.json(users);
+      res.json(
+        await User.findAll({
+          attributes: ['id', 'name', 'email'],
+          order: [['created_at', 'DESC'], [Posts, 'created_at', 'DESC']],
+          include: {
+            model: Posts,
+            attributes: ['id', 'title', 'content'],
+          },
+        }),
+      );
     } catch (error) {
       if (error.errors) {
         return res.status(400).json({ errors: error.errors.map((err) => err.message) });

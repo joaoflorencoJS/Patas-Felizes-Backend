@@ -8,6 +8,7 @@ const homeRoutes = require('./src/routes/homeRoutes');
 const userRoutes = require('./src/routes/userRoutes');
 const tokenRoutes = require('./src/routes/tokenRoutes');
 const ongRoutes = require('./src/routes/ongRoutes');
+const postsRoutes = require('./src/routes/postsRoutes');
 const corsOptions = require('./src/config/corsConfig');
 
 class App {
@@ -28,6 +29,7 @@ class App {
     this.app.use('/users/', userRoutes);
     this.app.use('/tokens/', tokenRoutes);
     this.app.use('/ongs/', ongRoutes);
+    this.app.use('/posts/', postsRoutes);
   }
 }
 

@@ -60,6 +60,10 @@ module.exports = class Ong extends Model {
     return this;
   }
 
+  static associate(models) {
+    this.hasMany(models.Posts, { foreignKey: 'ong_id' });
+  }
+
   passwordIsValid(password) {
     return compare(password, this.password_hash);
   }

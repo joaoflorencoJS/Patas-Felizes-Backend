@@ -1,11 +1,19 @@
 const Ong = require('../models/Ong');
+const Posts = require('../models/Posts');
 
 class OngController {
   index = async (req, res) => {
     try {
-      const ongs = await Ong.findAll({ attributes: ['id', 'name', 'cnpj'] });
-
-      res.json(ongs);
+      res.json(
+        await Ong.findAll({
+          attributes: ['id', 'name', 'cnpj'],
+          order: [['created_at', 'DESC'], [Posts, 'created_at', 'DESC']],
+          include: {
+            model: Posts,
+            attributes: ['id', 'title', 'content'],
+          },
+        }),
+      );
     } catch (error) {
       if (error.errors) {
         return res.status(400).json({ errors: error.errors.map((err) => err.message) });
