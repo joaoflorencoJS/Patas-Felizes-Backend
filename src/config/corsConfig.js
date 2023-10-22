@@ -1,5 +1,5 @@
 const whiteList = [
-  'http://localhost:3000',
+  `${process.env.WHITELIST_CORS_URL}`,
 ];
 
 exports.corsOptions = {
