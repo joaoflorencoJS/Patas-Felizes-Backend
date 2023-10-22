@@ -63,6 +63,24 @@ class PostController {
       return res.status(400).json(error);
     }
   }
+
+  async show(req, res) {
+    try {
+      const post = await Posts.findByPk(req.params.id);
+
+      if (!post) {
+        return res.status(404).json({ error: 'A postagem requisitada não existe.' });
+      }
+
+      return res.json(post);
+    } catch (error) {
+      if (error.parent.code === '22P02') {
+        return res.status(400).json({ error: 'O ID da postagem informado é inválido.' });
+      }
+
+      res.status(400).json(error);
+    }
+  }
 }
 
 module.exports = new PostController();

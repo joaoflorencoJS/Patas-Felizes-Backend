@@ -7,6 +7,12 @@ module.exports = class Posts extends Model {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
+        validate: {
+          isUUID: {
+            args: 4,
+            msg: 'O campo id deve ser um UUID válido.',
+          },
+        },
       },
       title: {
         type: Sequelize.STRING,
