@@ -1,5 +1,7 @@
 const Posts = require('../models/Posts');
 const cloudinary = require('../config/cloudinaryConfig');
+const User = require('../models/User');
+const Ong = require('../models/Ong');
 
 class PostController {
   async index(req, res) {
@@ -68,7 +70,17 @@ class PostController {
 
   async show(req, res) {
     try {
-      const post = await Posts.findByPk(req.params.id);
+      const post = await Posts.findByPk(req.params.id, {
+        include: [{
+          model: User,
+          attributes: ['id', 'name', 'email'],
+          as: 'user',
+        }, {
+          model: Ong,
+          attributes: ['id', 'name', 'cnpj'],
+          as: 'ong',
+        }],
+      });
 
       if (!post) {
         return res.status(404).json({ error: 'A postagem requisitada não existe.' });
@@ -79,6 +91,8 @@ class PostController {
       if (error.parent.code === '22P02') {
         return res.status(400).json({ error: 'O ID da postagem informado é inválido.' });
       }
+
+      console.log(error);
 
       res.status(400).json(error);
     }
