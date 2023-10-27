@@ -23,7 +23,9 @@ class PostController {
 
     const { title, content, image } = req.body;
 
-    if (!title || !content) return res.status(400).json({ errors: 'O campo título e conteúdo da postagem são obrigatórios.' });
+    if (title.length < 3 || title.length > 150) return res.status(400).json({ errors: 'O campo título deve conter entre 3 e 150 caracteres.' });
+
+    if (content.length < 3 || content.length > 500) return res.status(400).json({ errors: 'O campo conteúdo deve conter entre 3 e 500 caracteres.' });
 
     try {
       if (image) {
