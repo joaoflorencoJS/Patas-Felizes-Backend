@@ -6,5 +6,6 @@ const router = Router();
 
 router.get('/', ongController.index);
 router.post('/', validaCNPJ, ongController.create);
+router.get('/:id', ongController.show);
 
 module.exports = router;
