@@ -44,7 +44,6 @@ class UserController {
         order: [[Posts, 'created_at', 'DESC']],
         include: {
           model: Posts,
-          attributes: ['id', 'title', 'content', 'url', 'public_id', 'ong_id', 'user_id'],
         },
       });
 
