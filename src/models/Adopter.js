@@ -33,7 +33,7 @@ module.exports = class Adopter extends Model {
       cpf: {
         type: Sequelize.STRING,
         allowNull: true,
-        defaultValue: '',
+        defaultValue: null,
         validate: {
           len: {
             args: [11, 11],
@@ -120,7 +120,7 @@ module.exports = class Adopter extends Model {
       },
       contact_phone: {
         type: Sequelize.STRING,
-        defaultValue: '',
+        defaultValue: null,
         validate: {
           len: {
             args: [10, 11],
@@ -131,13 +131,21 @@ module.exports = class Adopter extends Model {
       },
       contact_email: {
         type: Sequelize.STRING,
-        defaultValue: '',
+        defaultValue: null,
         validate: {
           isEmail: {
             msg: 'O campo e-mail deve ser um e-mail válido.',
           },
         },
         allowNull: true,
+      },
+      user_id: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
       },
     }, { sequelize, modelName: 'Adopter' });
 

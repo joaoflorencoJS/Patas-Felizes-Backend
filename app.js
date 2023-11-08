@@ -9,6 +9,7 @@ const userRoutes = require('./src/routes/userRoutes');
 const tokenRoutes = require('./src/routes/tokenRoutes');
 const ongRoutes = require('./src/routes/ongRoutes');
 const postsRoutes = require('./src/routes/postsRoutes');
+const adopterRoutes = require('./src/routes/adopterRoutes');
 const corsOptions = require('./src/config/corsConfig');
 
 class App {
@@ -30,6 +31,7 @@ class App {
     this.app.use('/tokens/', tokenRoutes);
     this.app.use('/ongs/', ongRoutes);
     this.app.use('/posts/', postsRoutes);
+    this.app.use('/adopters/', adopterRoutes);
   }
 }
 
