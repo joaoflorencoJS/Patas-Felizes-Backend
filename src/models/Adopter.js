@@ -139,14 +139,6 @@ module.exports = class Adopter extends Model {
         },
         allowNull: true,
       },
-      user_id: {
-        type: Sequelize.UUID,
-        allowNull: false,
-        references: {
-          model: 'users',
-          key: 'id',
-        },
-      },
     }, { sequelize, modelName: 'Adopter' });
 
     return this;

@@ -12,7 +12,7 @@ module.exports = {
         allowNull: false,
       },
       age: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DATE,
         allowNull: false,
       },
       cpf: {
