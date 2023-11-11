@@ -20,12 +20,25 @@ module.exports = class Adopter extends Model {
         allowNull: false,
       },
       age: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DATE,
         defaultValue: '',
         validate: {
-          min: {
-            args: [18],
-            msg: 'O adotante deve ser maior de idade.',
+          isMajority(birthDate) {
+            const [day, month, year] = new Date(birthDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }).split('/');
+            const birth = new Date(year, month - 1, day);
+            const today = new Date();
+            let age = today.getFullYear() - birth.getFullYear();
+            const birthMonth = today.getMonth() - birth.getMonth();
+
+            if (birthMonth < 0 || (birthMonth === 0 && today.getDate() < birth.getDate())) {
+              age -= 1;
+            }
+
+            if (age < 18) {
+              throw new Error('O adotante deve ser maior de idade.');
+            }
+
+            return age;
           },
         },
         allowNull: false,
