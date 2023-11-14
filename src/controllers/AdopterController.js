@@ -1,8 +1,22 @@
 const Adopter = require('../models/Adopter');
+const Posts = require('../models/Posts');
 
 class AdopterController {
-  index(req, res) {
-    res.json('Index');
+  async index(req, res) {
+    try {
+      const adopters = await Adopter.findAll({
+        order: [['created_at', 'DESC'], ['post', 'created_at', 'DESC']],
+        include: {
+          model: Posts,
+          attributes: ['id', 'title', 'content', 'url', 'public_id', 'ong_id', 'user_id'],
+          as: 'post',
+        },
+      });
+
+      return res.json(adopters);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   create = async (req, res) => {
