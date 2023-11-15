@@ -6,5 +6,6 @@ const router = new Router();
 
 router.get('/', adopterController.index);
 router.post('/', verifyLogin, adopterController.create);
+router.get('/:id', adopterController.show);
 
 module.exports = router;
