@@ -1,21 +1,48 @@
 const Adopter = require('../models/Adopter');
 const Posts = require('../models/Posts');
+const User = require('../models/User');
+const Ong = require('../models/Ong');
 
 class AdopterController {
   async index(req, res) {
     try {
-      const adopters = await Adopter.findAll({
-        order: [['created_at', 'DESC'], ['post', 'created_at', 'DESC']],
+      const { id } = req.params;
+      const isUser = req.route.path.split('/')[1] === 'user';
+      console.log(isUser);
+
+      const userOrOngWithPostsAndAdopters = isUser ? await User.findByPk(id, {
+        attributes: ['id', 'name', 'email'],
+        order: [[Posts, 'created_at', 'DESC']],
         include: {
           model: Posts,
-          attributes: ['id', 'title', 'content', 'url', 'public_id', 'ong_id', 'user_id'],
-          as: 'post',
+          include: {
+            model: Adopter,
+            as: 'adopter',
+          },
+        },
+      }) : await Ong.findByPk(id, {
+        attributes: ['id', 'name', 'cnpj'],
+        order: [[Posts, 'created_at', 'DESC']],
+        include: {
+          model: Posts,
+          include: {
+            model: Adopter,
+            as: 'adopter',
+          },
         },
       });
 
-      return res.json(adopters);
+      if (!userOrOngWithPostsAndAdopters) {
+        return res.status(404).json({ error: 'O usuário ou ong inexistente.' });
+      }
+
+      return res.json(userOrOngWithPostsAndAdopters);
     } catch (error) {
-      console.log(error);
+      if (error.parent.code === '22P02') {
+        return res.status(400).json({ error: 'O ID do usuário informado é inválido.' });
+      }
+
+      res.status(400).json(error);
     }
   }
 
@@ -54,8 +81,6 @@ class AdopterController {
       if (error.parent.code === '22P02') {
         return res.status(400).json({ error: 'O ID da postagem informado é inválido.' });
       }
-
-      console.log(error);
 
       res.status(400).json(error);
     }
