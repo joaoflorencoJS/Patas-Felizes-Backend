@@ -27,10 +27,12 @@ class IsLoggedIn {
       if (this.#user) {
         req.body.user_id = id;
         req.body.user_email = email;
+        this.#user = null;
       }
       if (this.#ong) {
         req.body.ong_id = id;
         req.body.ong_cnpj = cnpj;
+        this.#ong = null;
       }
 
       return next();

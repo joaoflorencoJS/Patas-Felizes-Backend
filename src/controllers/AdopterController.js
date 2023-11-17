@@ -8,7 +8,10 @@ class AdopterController {
     try {
       const { id } = req.params;
       const isUser = req.route.path.split('/')[1] === 'user';
-      console.log(isUser);
+
+      if ((req.body.user_id || req.body.ong_id) !== id) {
+        return res.status(401).json({ error: 'Você não tem permissão para acessar esses dados.' });
+      }
 
       const userOrOngWithPostsAndAdopters = isUser ? await User.findByPk(id, {
         attributes: ['id', 'name', 'email'],
