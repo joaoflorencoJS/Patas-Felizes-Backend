@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const TokenController = require('../controllers/TokenController');
+const tokenController = require('../controllers/TokenController');
 
 const router = new Router();
 
-router.post('/', TokenController.store);
+router.post('/', tokenController.store);
 
 module.exports = router;

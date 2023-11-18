@@ -88,6 +88,32 @@ class AdopterController {
       res.status(400).json(error);
     }
   };
+
+  delete = async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const adopter = await Adopter.findByPk(id);
+
+      if (!adopter) {
+        return res.status(404).json({ error: 'O adotante requisitado não existe.' });
+      }
+
+      if (req.body.user_id !== adopter.user_id) {
+        return res.status(401).json({ error: 'Você não tem permissão para deletar esse adotante.' });
+      }
+
+      await adopter.destroy();
+
+      return res.json({ message: 'Adotante excluído com sucesso.' });
+    } catch (error) {
+      if (error.parent.code === '22P02') {
+        return res.status(400).json({ error: 'O ID do adotante informado é inválido.' });
+      }
+
+      res.status(400).json(error);
+    }
+  };
 }
 
 module.exports = new AdopterController();

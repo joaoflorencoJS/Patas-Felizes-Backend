@@ -4,8 +4,8 @@ const { verifyLogin } = require('../middlewares/IsLoggedIn');
 
 const router = new Router();
 
-router.get('/', postController.index);
+router.get('/', verifyLogin, postController.index);
 router.post('/', verifyLogin, postController.store);
-router.get('/:id', postController.show);
+router.get('/:id', verifyLogin, postController.show);
 
 module.exports = router;

@@ -2,6 +2,7 @@ const Posts = require('../models/Posts');
 const cloudinary = require('../config/cloudinaryConfig');
 const User = require('../models/User');
 const Ong = require('../models/Ong');
+const Adopter = require('../models/Adopter');
 
 class PostController {
   async index(req, res) {
@@ -79,6 +80,11 @@ class PostController {
           model: Ong,
           attributes: ['id', 'name', 'cnpj'],
           as: 'ong',
+        },
+        {
+          attributes: ['id', 'user_id'],
+          model: Adopter,
+          as: 'adopter',
         }],
       });
 
