@@ -39,6 +39,12 @@ class AdopterController {
         return res.status(404).json({ error: 'O usuário ou ong inexistente.' });
       }
 
+      userOrOngWithPostsAndAdopters
+        .Posts = userOrOngWithPostsAndAdopters
+          .Posts.map((post) => {
+            post.dataValues.adopter = post.dataValues.adopter.length; return post;
+          });
+
       return res.json(userOrOngWithPostsAndAdopters);
     } catch (error) {
       if (error.parent.code === '22P02') {
@@ -66,13 +72,19 @@ class AdopterController {
 
   show = async (req, res) => {
     try {
-      const { id } = req.params;
-
-      const postWithAdopters = await Posts.findByPk(id, {
-        include: {
+      const postWithAdopters = await Posts.findByPk(req.params.id, {
+        include: [{
           model: Adopter,
           as: 'adopter',
-        },
+        }, {
+          model: User,
+          attributes: ['id', 'name', 'email'],
+          as: 'user',
+        }, {
+          model: Ong,
+          attributes: ['id', 'name', 'cnpj'],
+          as: 'ong',
+        }],
       });
 
       if (!postWithAdopters) {
