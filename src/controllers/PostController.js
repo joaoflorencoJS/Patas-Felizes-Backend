@@ -103,6 +103,34 @@ class PostController {
       res.status(400).json(error);
     }
   }
+
+  async delete(req, res) {
+    try {
+      const { id } = req.params;
+
+      const post = await Posts.findByPk(id);
+
+      if (!post) {
+        return res.status(404).json({ error: 'A postagem requisitada não existe.' });
+      }
+
+      if ((req.body.user_id || req.body.ong_id) !== (post.user_id || post.ong_id)) {
+        return res.status(401).json({ error: 'Você não tem permissão para deletar esse post.' });
+      }
+
+      await cloudinary.uploader.destroy(post.public_id);
+
+      await post.destroy();
+
+      return res.json({ message: 'Postagem deletada com sucesso.' });
+    } catch (error) {
+      if (error.parent.code === '22P02') {
+        return res.status(400).json({ error: 'O ID da postagem informado é inválido.' });
+      }
+
+      res.status(400).json(error);
+    }
+  }
 }
 
 module.exports = new PostController();
