@@ -57,7 +57,6 @@ class AdopterController {
 
   create = async (req, res) => {
     try {
-      console.log(req.body);
       const adopterRequest = await Adopter.create(req.body);
 
       res.json(adopterRequest);

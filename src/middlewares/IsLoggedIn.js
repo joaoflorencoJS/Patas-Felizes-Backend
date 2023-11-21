@@ -37,6 +37,7 @@ class IsLoggedIn {
 
       return next();
     } catch (error) {
+      console.log(error);
       return res.status(401).json({ errors: 'Token inválido.' });
     }
   };

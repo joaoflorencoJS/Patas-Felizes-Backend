@@ -21,7 +21,6 @@ class PostController {
   }
 
   async store(req, res) {
-    console.log(req.body);
     const { ong_id, user_id } = req.body;
 
     const { title, content, image } = req.body;

@@ -48,6 +48,17 @@ module.exports = class User extends Model {
           },
         },
       },
+      user_info: {
+        type: Sequelize.STRING,
+        defaultValue: null,
+        allowNull: true,
+        validate: {
+          len: {
+            args: [0, 500],
+            msg: 'O campo informações do usuário deve conter no máximo 500 caracteres.',
+          },
+        },
+      },
     }, { sequelize, modelName: 'User' });
 
     this.addHook('beforeSave', async (user) => {

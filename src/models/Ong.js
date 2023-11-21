@@ -49,6 +49,17 @@ module.exports = class Ong extends Model {
           },
         },
       },
+      ong_info: {
+        type: Sequelize.STRING,
+        defaultValue: null,
+        allowNull: true,
+        validate: {
+          len: {
+            args: [0, 500],
+            msg: 'O campo informações da ONG deve conter no máximo 500 caracteres.',
+          },
+        },
+      },
     }, { sequelize, modelName: 'Ong' });
 
     this.addHook('beforeSave', async (user) => {

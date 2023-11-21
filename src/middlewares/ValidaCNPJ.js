@@ -29,8 +29,6 @@ class ValidaCNPJ {
       return;
     }
 
-    console.log(req.body);
-
     req.body.cnpj = this.cnpj;
 
     return next();
