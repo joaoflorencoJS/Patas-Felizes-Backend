@@ -29,33 +29,28 @@ class PostController {
 
     if (content.length < 3 || content.length > 500) return res.status(400).json({ errors: 'O campo conteúdo deve conter entre 3 e 500 caracteres.' });
 
-    try {
-      if (image) {
-        const cloudinaryPhoto = await cloudinary.uploader.upload(image, {
-          folder: 'Patas_Felizes',
-          transformation: [{
-            width: 500,
-            height: 500,
-            crop: 'fill',
-            gravity: 'auto',
-            quality: 'auto',
-            fetch_format: 'auto',
-          }],
-        });
+    if (!image) return res.status(400).json({ errors: 'É necessário enviar uma imagem para a postagem.' });
 
-        const post = await Posts.create({
-          user_id,
-          ong_id,
-          title,
-          content,
-          url: cloudinaryPhoto.secure_url,
-          public_id: cloudinaryPhoto.public_id,
-        });
-        return res.json(post);
-      }
+    try {
+      const cloudinaryPhoto = await cloudinary.uploader.upload(image, {
+        folder: 'Patas_Felizes',
+        transformation: [{
+          width: 500,
+          height: 500,
+          crop: 'fill',
+          gravity: 'auto',
+          quality: 'auto',
+          fetch_format: 'auto',
+        }],
+      });
 
       const post = await Posts.create({
-        user_id, ong_id, title, content,
+        user_id,
+        ong_id,
+        title,
+        content,
+        url: cloudinaryPhoto.secure_url,
+        public_id: cloudinaryPhoto.public_id,
       });
 
       return res.json(post);

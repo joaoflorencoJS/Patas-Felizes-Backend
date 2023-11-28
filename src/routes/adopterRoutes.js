@@ -7,7 +7,7 @@ const router = new Router();
 router.get('/user/:id', verifyLogin, adopterController.index);
 router.get('/ong/:id', verifyLogin, adopterController.index);
 router.post('/', verifyLogin, adopterController.create);
-router.get('/:id', adopterController.show);
+router.get('/:id', verifyLogin, adopterController.show);
 router.delete('/:id', verifyLogin, adopterController.delete);
 
 module.exports = router;

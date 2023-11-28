@@ -5,7 +5,7 @@ const { verifyLogin } = require('../middlewares/IsLoggedIn');
 
 const router = Router();
 
-router.get('/', ongController.index);
+router.get('/', verifyLogin, ongController.index);
 router.post('/', validaCNPJ, ongController.create);
 router.get('/:id', verifyLogin, ongController.show);
 router.put('/:id', verifyLogin, ongController.update);
