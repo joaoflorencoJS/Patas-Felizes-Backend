@@ -1,7 +1,9 @@
 require('dotenv').config();
+const pg = require('pg');
 
 module.exports = {
   dialect: 'postgres',
+  dialectModule: pg,
   host: process.env.DATABASE_HOST,
   port: process.env.DATABASE_PORT,
   username: process.env.DATABASE_USERNAME,
