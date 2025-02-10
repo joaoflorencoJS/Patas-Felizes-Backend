@@ -17,6 +17,12 @@ module.exports = {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
   },
-  dialectOptions: { timezone: 'America/Sao_Paulo' },
+  dialectOptions: {
+    timezone: 'America/Sao_Paulo',
+    bigNumberStrings: true,
+    ssl: {
+      ca: process.env.DATABASE_CERT,
+    },
+  },
   timezone: 'America/Sao_Paulo',
 };
